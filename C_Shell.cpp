@@ -138,28 +138,43 @@ void C_Shell::com_com(char* pCommand, uint16_t cCommand){
    pPacket[p++] = STX;
 
    switch(pCommand[1]){
-      case CPS_REBOOT: reset_usb_boot(0, 0); break;
-      case CPS_RB2USB: watchdog_enable(1000, 1);
-                       while(1); break;
+      case CPS_REBOOT: 
+
+         watchdog_enable(1000, 1);
+
+         while(1); 
+         
+         break;
+
+      case CPS_RB2USB: 
+
+         reset_usb_boot(0, 0); 
+
+         break;     
+
       case CPS_PICOID: 
-                pico_unique_board_id_t board_id;
 
-                pico_get_unique_board_id(&board_id);
+         pico_unique_board_id_t board_id;
 
-                p += sprintf(&pPacket[p], "Unique identifier:");
-                for(int i = 0; i < PICO_UNIQUE_BOARD_ID_SIZE_BYTES; ++i){
-                   p += sprintf(&pPacket[p], " %02x", board_id.id[i]);
-                }
+         pico_get_unique_board_id(&board_id);
 
-                break;
+         p += sprintf(&pPacket[p], "Unique identifier:");
+
+         for(int i = 0; i < PICO_UNIQUE_BOARD_ID_SIZE_BYTES; ++i){
+            p += sprintf(&pPacket[p], " %02x", board_id.id[i]);
+         }
+
+         break;
 
       case CPS_CALLBACK: 
 
-                pCallback(pCommand, cCommand);
+         pCallback(pCommand, cCommand);
 
-                break;
+         break;
 
-      default: p += sprintf(&pPacket[p], "OkDefault %d", (int)pCommand[1]); break;
+      default: 
+      
+         p += sprintf(&pPacket[p], "OkDefault %d", (int)pCommand[1]); break;
    }
 
    pPacket[p++] = ETX;
