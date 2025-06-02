@@ -143,7 +143,7 @@ void C_Shell::com_com(char* pCommand, uint16_t cCommand){
          watchdog_enable(1000, 1);
 
          while(1); 
-         
+
          break;
 
       case CPS_RB2USB: 
@@ -168,7 +168,8 @@ void C_Shell::com_com(char* pCommand, uint16_t cCommand){
 
       case CPS_CALLBACK: 
 
-         pCallback(pCommand, cCommand);
+         if(bCallback)
+            pCallback(pCommand, cCommand);
 
          break;
 
